@@ -1,40 +1,81 @@
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+#define LINHA 10
+#define COLUNA 10
+
+// Função para aplicar habilidade
+void aplicarHabilidade(int tabuleiro[LINHA][COLUNA], int origemX, int origemY, int habilidade[5][5]) {
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            // Verifica se a posição da habilidade é válida
+            if (habilidade[i][j] == 1) {
+                // Verifica se a posição está dentro dos limites do tabuleiro
+                if (origemX + i >= 0 && origemX + i < LINHA && origemY + j >= 0 && origemY + j < COLUNA) {
+                    // Marca a posição como afetada pela habilidade
+                    tabuleiro[origemX + i][origemY + j] = 5;
+                }
+            }
+        }
+    }
+}
 
 int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    int tabuleiro[LINHA][COLUNA] = {0}; 
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+    // Definindo a matriz de habilidade Cruz (3x3)
+    int cruz[5][5] = {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 0, 0}
+    };
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+    // Definindo a matriz de habilidade Cone (5x5)
+    int cone[5][5] = {
+        {0, 0, 1, 0, 0},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 0, 0}
+    };
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    // Definindo a matriz de habilidade Octaedro (5x5)
+    int octaedro[5][5] = {
+        {0, 0, 1, 1, 1},
+        {0, 1, 1, 1, 0},
+        {1, 1, 1, 1, 1},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 1, 1}
+    };
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    // Posicionando os navios
+    tabuleiro[1][3] = 3; 
+    tabuleiro[1][4] = 3;
+    tabuleiro[1][5] = 3;
+
+    tabuleiro[5][6] = 3;  
+    tabuleiro[6][6] = 3;
+    tabuleiro[7][6] = 3;
+
+    // Aplicando as habilidades no tabuleiro
+    aplicarHabilidade(tabuleiro, 2, 2, cruz);  // Aplicando Cruz na posição (2, 2)
+    aplicarHabilidade(tabuleiro, 4, 4, cone);  // Aplicando Cone na posição (4, 4)
+    aplicarHabilidade(tabuleiro, 3, 3, octaedro);  // Aplicando Octaedro na posição (3, 3)
+
+    // Exibindo o tabuleiro após aplicar as habilidades
+    for (int i = 0; i < LINHA; i++) {
+        for (int j = 0; j < COLUNA; j++) {
+            if (tabuleiro[i][j] == 0) {
+                printf("0 ");  // Água
+            } else if (tabuleiro[i][j] == 3) {
+                printf("3 ");  // Navio
+            } else if (tabuleiro[i][j] == 5) {
+                printf("1 ");  // Área afetada pela habilidade
+            }
+        }
+        printf("\n");
+    }
 
     return 0;
 }
